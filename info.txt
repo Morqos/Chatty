@@ -1,0 +1,86 @@
+######################## SETUP ########################
+
+mkdir ../../../../../../../tmp/chatty_socket
+mkdir ../../../../../../../tmp/chatty
+rm -f ../../../../../../../tmp/chatty/testFile.txt
+
+# To launch the project
+bash toSetupForExec.sh
+
+# To move in the src directory
+cd Università/SOL/Progetto\ SOL/kit_chatty18/src/
+
+# Compile server
+gcc -I ../include chatty.c config.c icl_hash.c threadpool.c connections.c -o chatty -lpthread
+
+# Launch server
+./chatty -f DATA/chatty.conf1
+
+
+######################## INFO ########################
+
+Ultimo aggiornamento 13/01/18:
+    - Consegnato
+
+######################## TEST ########################
+
+# Compile client
+gcc -I ../include client.c connections.c -o client
+
+# Launch client: sub pippo
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -c pippo 
+
+# Launch another client: sub topolino
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -c topolino
+
+# Launch another client: sub paperino
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -c paperino
+
+# List users
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -k pippo
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -k topolino 
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -k paperino 
+
+
+###### Files and Messages ######
+
+# topolino waits a file/message
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -k topolino -R 1
+
+# pippo sends a file to topolino
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -k pippo -s toTestFile.txt:topolino
+
+# pippo sends messages to topolino
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -k pippo -S abc:topolino
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -k pippo -S def:topolino
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -k pippo -S ghi:topolino
+
+# topolino reads hists messages
+./client -l /tmp/chatty_socket/chatterbox_sock_538908 -k topolino -p
+
+
+###### BASH TESTS ######
+
+# Launch testconf.sh (chatty launched with DATA/chatty.conf2)
+bash testconf.sh /tmp/chatty_socket/chatterbox_sock_538908 /tmp/chatty_stats.txt
+
+# Launch testfile.sh (./chatty -f DATA/chatty.conf1)
+bash testfile.sh /tmp/chatty_socket/chatterbox_sock_538908 /tmp/chatty
+
+# Launch testleaks.sh
+bash testleaks.sh /tmp/chatty_socket/chatterbox_sock_538908
+
+
+
+# Launch teststress.sh (chatty launched with DATA/chatty.conf1 or DATA/chatty.conf2)
+bash teststress.sh /tmp/chatty_socket/chatterbox_sock_538908
+
+
+# Launch teststress Personalized (./chatty -f DATA/chatty.conf1)
+bash teststressPers.sh /tmp/chatty_socket/chatterbox_sock_538908
+
+# Launch teststress with Valgrind
+bash testStressValgrind.sh /tmp/chatty_socket/chatterbox_sock_538908
+
+# Launch chatty with Valgrind
+/usr/bin/valgrind ./chatty -f DATA/chatty.conf1
