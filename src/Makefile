@@ -9,10 +9,9 @@
 ##########################################################
 # IMPORTANTE: completare la lista dei file da consegnare
 # 
-FILE_DA_CONSEGNARE=Makefile client.c chatty.c config.c icl_hash.c threadpool.c connections.c DATA \
+FILE_DA_CONSEGNARE= ../src \
 			../include \
 			../Documentazione.pdf ../chatterbox18.pdf \
-			testconf.sh testfile.sh testleaks.sh teststress.sh \
 			script.sh
 
 # inserire il nome del tarball: es. NinoBixio
