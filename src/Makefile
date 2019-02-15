@@ -12,7 +12,6 @@
 FILE_DA_CONSEGNARE= ../src \
 			../include \
 			../Documentazione.pdf ../chatterbox18.pdf \
-			script.sh
 
 # inserire il nome del tarball: es. NinoBixio
 TARNAME=MarcoMorganti

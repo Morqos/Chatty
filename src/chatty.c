@@ -23,6 +23,8 @@
 #include <sys/select.h>
 #include <errno.h>
 #include <sys/ioctl.h>
+#include <sys/stat.h>
+
 
 #include "stats.h"
 #include "config.h"
@@ -207,6 +209,8 @@ void cleanup() {
 
 int createSocket(){
 
+    mkdir(conf->UnixPath, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+    mkdir(conf->DirName, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
     appendPathFile(socketPathName, conf->UnixPath, SOCKETNAME);
 
     cleanup();    
